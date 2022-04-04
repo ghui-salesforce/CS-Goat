@@ -1,0 +1,102 @@
+<template>
+    <!-- PROGRAM DETAILS -->
+    <lightning-card title="Program Details" icon-name="standard:record_lookup">
+        <div class=“slds-p-around_medium”>
+            <div class="slds-form" role="list">
+                <div class="slds-form__row slds-p-left_medium">
+                    <!-- <div class="slds-form__item" role="listitem">
+                        <div class=“slds-p-left_medium”>
+                            <span class="slds-form-element__label">
+                                Program ID
+                            </span>
+                            <div class="slds-form-element__control">
+                                <lightning-formatted-text value={PID}>
+                                </lightning-formatted-text>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="slds-form__item" role="listitem">
+                        <div class="slds-form-element">
+                            <span class="slds-form-element__label">
+                                Program Name
+                            </span>
+                            <div class="slds-form-element__control">
+                                <lightning-formatted-text value={PName}>
+                                </lightning-formatted-text>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-form__item" role="listitem">
+                        <div class="slds-form-element">
+                            <span class="slds-form-element__label">
+                                Program Duration in Days
+                            </span>
+                            <div class="slds-form-element__control">
+                                <lightning-formatted-number value={PDuration}>
+                                </lightning-formatted-number>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="slds-border_bottom">
+                <!-- START DATE -->
+                <div class="slds-m-around_medium" style="width:470px">
+                    <lightning-input type="date" label="Assignment Start Date" date-style="short" onchange={handleDateChange}></lightning-input>
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+    <!-- EMPLOYEE SECTION -->
+    <lightning-card title ="Select Elligible Employees" icon-name="standard:contact">
+        <!-- EMPLOYEE FILTERING-->
+        <!-- <div>
+            <p id="utility" class="slds-box slds-text-heading_small">
+                <lightning-icon icon-name="utility:filterList" title="Filter By">test</lightning-icon>
+            </p>
+        </div> -->
+        <div class="slds-p-horizontal_small slds-p-left_large" style="width:500px">
+            <lightning-input label="Filter by Name"
+                            type="search" 
+                            placeholder="Search"
+                            onchange={handleChangedName}
+                            value={searchKeyName}>
+            </lightning-input>
+            <lightning-input label="Filter by Role"
+                            type="search" 
+                            placeholder="Search"
+                            onchange={handleChangedRole}
+                            value={searchKeyRole}>
+            </lightning-input>
+            <!-- <lightning-input label="Filter by Manager"
+                            type="search" 
+                            placeholder="Search"
+                            onchange={handleChangedManager}
+                            value={searchKeyManager}>
+            </lightning-input> -->
+        </div>
+        <!-- EMPLOYEE DATA TABLE SELECTION -->
+        <div class="slds-m-around_medium">
+            <template if:true={employees}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={employees}
+                    columns={employeeColumns}
+                    onrowselection={getSelectedRows}>
+                </lightning-datatable>
+            </template>
+        </div>
+        <!-- MASS ASSIGN BUTTON -->
+        <div class="slds-align_absolute-center" slot="footer">
+            <lightning-button variant="brand" label="Mass Assign" onclick={handleClick}></lightning-button>
+        </div>
+    </lightning-card>
+
+    <!-- <lightning-card>
+        <div class="slds-align_absolute-center">
+            <lightning-button varian="brand" label="Mass Assign" onclick={handleClick}></lightning-button>
+        </div>
+    </lightning-card> -->
+</template>

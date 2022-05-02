@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Invalid_Completed_Minutes_Input</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(ISNULL( Completed_Mins__c ), Completed_Mins__c &lt; 0)</errorConditionFormula>
+    <errorDisplayField>Completed_Mins__c</errorDisplayField>
+    <errorMessage>Completed Mins has to be greater than or equal to zero</errorMessage>
+</ValidationRule>

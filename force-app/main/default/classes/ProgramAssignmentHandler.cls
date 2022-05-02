@@ -36,17 +36,17 @@ public class ProgramAssignmentHandler {
                 if(ttaMap.containsKey(pt.Training_Task__c)){
                     tta = new Training_Task_Assignment__c(Contact__c=pa.Contact__c,
                                                           Start_Date__c=pa.Start_Date__c,
-                                                          Due_Date__c=pa.Start_Date__c.addDays((Integer)pt.Due_Day__c-1),
+                                                          Due_Date__c=pa.Start_Date__c.addDays((Integer)pt.Due_Day__c-1), //accurate due date requires -1 offset, use validation rule for {due day >= 1}
                                                           Program_Assignment__c=pa.Id,
                                                           Status__c=ttaMap.get(pt.Training_Task__c),
-                                                          Training_Task__c=pt.Training_Task__c); //accurate due date requires -1 offset, use validation rule for {due day >= 1}
+                                                          Training_Task__c=pt.Training_Task__c); 
                 }else{
                     tta = new Training_Task_Assignment__c(Contact__c=pa.Contact__c,
                                                           Start_Date__c=pa.Start_Date__c,
-                                                          Due_Date__c=pa.Start_Date__c.addDays((Integer)pt.Due_Day__c-1),
+                                                          Due_Date__c=pa.Start_Date__c.addDays((Integer)pt.Due_Day__c-1), //accurate due date requires -1 offset, use validation rule for {due day >= 1}
                                                           Program_Assignment__c=pa.Id,
                                                           Status__c='Not Started',
-                                                          Training_Task__c=pt.Training_Task__c); //accurate due date requires -1 offset, use validation rule for {due day >= 1}
+                                                          Training_Task__c=pt.Training_Task__c);
                 }
                 
                 ttaSend.add(tta);

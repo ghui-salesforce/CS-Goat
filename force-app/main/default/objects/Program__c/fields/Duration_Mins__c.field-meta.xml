@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Duration_Mins__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Total minutes required to complete all tasks within this program.</inlineHelpText>
+    <label>Duration Mins.</label>
+    <summarizedField>Program_Task__c.Duration_Mins__c</summarizedField>
+    <summaryForeignKey>Program_Task__c.Program__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

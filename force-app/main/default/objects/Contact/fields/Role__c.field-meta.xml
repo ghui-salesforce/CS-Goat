@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Role__c</fullName>
+    <externalId>false</externalId>
+    <label>Role</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Account Executive</fullName>
+                <default>false</default>
+                <label>Account Executive</label>
+            </value>
+            <value>
+                <fullName>Customer Support</fullName>
+                <default>false</default>
+                <label>Customer Support</label>
+            </value>
+            <value>
+                <fullName>Director</fullName>
+                <default>false</default>
+                <label>Director</label>
+            </value>
+            <value>
+                <fullName>Manager</fullName>
+                <default>false</default>
+                <label>Manager</label>
+            </value>
+            <value>
+                <fullName>Solution Consultant</fullName>
+                <default>false</default>
+                <label>Solution Consultant</label>
+            </value>
+            <value>
+                <fullName>Technical Consultant</fullName>
+                <default>false</default>
+                <label>Technical Consultant</label>
+            </value>
+            <value>
+                <fullName>Training Specialist</fullName>
+                <default>false</default>
+                <label>Training Specialist</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

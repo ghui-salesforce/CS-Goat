@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Expected_Mins_Due__c</fullName>
+    <defaultValue>0</defaultValue>
+    <description>This is the number of minutes an employee is expected to have so far. This number increases by the training task&apos;s &apos;duration mins.&apos; field when a training task is past due date. Used to calculate if an employee is ahead or behind schedule.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The number of minutes an employee is expected to have at this time. This number is calculated/increases based on the training tasks&apos; due date.</inlineHelpText>
+    <label>Expected Mins. Due</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

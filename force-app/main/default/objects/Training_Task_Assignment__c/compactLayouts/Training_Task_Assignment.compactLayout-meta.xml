@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Training_Task_Assignment</fullName>
+    <fields>Training_Task__c</fields>
+    <fields>Status__c</fields>
+    <fields>Due_Date__c</fields>
+    <fields>Duration_Mins__c</fields>
+    <fields>Actual_Mins__c</fields>
+    <label>Training Task Assignment</label>
+</CompactLayout>

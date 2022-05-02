@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Invalid_Expected_Mins_Due_Input</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(ISNULL(  Expected_Mins_Due__c  ),  Expected_Mins_Due__c  &lt; 0)</errorConditionFormula>
+    <errorDisplayField>Expected_Mins_Due__c</errorDisplayField>
+    <errorMessage>Expected Mins Due has to be greater than or equal to zero</errorMessage>
+</ValidationRule>

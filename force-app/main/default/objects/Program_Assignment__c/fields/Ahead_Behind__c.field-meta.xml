@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ahead_Behind__c</fullName>
+    <description>hh:mm format for the number of minutes the employee is ahead/behind on training tasks associated with this program.</description>
+    <externalId>false</externalId>
+    <formula>&quot;(&quot;&amp;
+TEXT(FLOOR(ABS(Ahead_Behind_Mins__c )/ 60))
+&amp;&apos;hr &apos;&amp; 
+TEXT(MOD(ABS(Ahead_Behind_Mins__c ),60))
+&amp;&apos;min&apos;&amp;
+&quot;)&quot;</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Ahead/Behind</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

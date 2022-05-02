@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <description>Ratio between minutes earned vs. total minutes determining how far ahead or behind a user is within their assigned program. Calculated by Completed Minutes / Total Minutes by a +-25% criteria</description>
+    <externalId>false</externalId>
+    <formula>IF(AND(Duration_Mins__c != 0, Completed_Mins__c = Duration_Mins__c), &apos;Complete&apos;,
+IF(OR(Expected_Mins_Due__c = 0,AND(Expected_Mins_Due__c = 0, Completed_Mins__c = Expected_Mins_Due__c)), &apos;On Track&apos;,
+IF(Completed_Mins__c / Expected_Mins_Due__c &lt;= 0.75, &apos;Far Behind&apos;,
+IF(Completed_Mins__c / Expected_Mins_Due__c &lt; 1, &apos;Behind&apos;,
+IF(Completed_Mins__c / Expected_Mins_Due__c &gt; 1.25, &apos;Far Ahead&apos;,
+IF(Completed_Mins__c / Expected_Mins_Due__c &gt; 1, &apos;Far Ahead&apos;, &apos;N/A&apos;))))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Calculated by Completed Mins. / Expected Mins. by a +-25% criteria (if Expected Mins. != 0)</inlineHelpText>
+    <label>Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

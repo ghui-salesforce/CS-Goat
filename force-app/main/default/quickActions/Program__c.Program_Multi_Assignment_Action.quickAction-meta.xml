@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionSubtype>ScreenAction</actionSubtype>
+    <description>Assign multiple employees to a program</description>
+    <lightningWebComponent>programAssigmentToMultiUsers</lightningWebComponent>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <standardLabel>EnrollInProgram</standardLabel>
+    <type>LightningWebComponent</type>
+</QuickAction>

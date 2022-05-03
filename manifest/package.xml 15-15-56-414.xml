@@ -182,5 +182,18 @@
         <members>Program_Task__c.Invalid_Due_Day</members>
         <name>ValidationRule</name>
     </types>
-    <version>52.0</version>
+    <types>
+        <members>Program__c-Program Layout</members>
+        <members>Program_Task__c-Program Task Layout</members>
+        <members>Program_Assignment__c-Program Assignment Layout</members>
+        <members>Training_Task__c-Training Task Layout</members>
+        <members>Training_Task_Assignment__c-Training Task Assignment Layout</members>
+        <members>Contact-Contact Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>Program__c.Program_Multi_Assignment_Action</members>
+        <name>QuickAction</name>
+    </types>
+    <version>54.0</version>
 </Package>

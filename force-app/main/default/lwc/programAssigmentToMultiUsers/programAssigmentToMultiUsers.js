@@ -25,7 +25,6 @@ export default class ProgramAssigmentToMultiUsers extends LightningElement {
 
     @api recordId; //store the current record's ID
     @track searchKeyName = '';
-   // @track searchKeyEmployeeID = '';
     @track searchKeyRole = '';
     @track startDate;
     @track employees;
@@ -49,9 +48,6 @@ export default class ProgramAssigmentToMultiUsers extends LightningElement {
 
     // get program details
     @wire(getRecord, { recordId: '$recordId', fields }) program;
-    // get PID() {
-    //     return getFieldValue(this.program.data, PROGRAM_FIELD);
-    // }
     get PName() {
         return getFieldValue(this.program.data, NAME_FIELD);
     }
@@ -74,17 +70,10 @@ export default class ProgramAssigmentToMultiUsers extends LightningElement {
     // search/filter functionality for employee table
     handleChangedName(event) {
         this.searchKeyName = event.target.value;
-        console.log('this.search key name = ' + this.searchKeyName);
-        console.log('event.target.search key name = ' + event.target.value);
-
     }
-    // handleChangedEmployeeID(event) {
-    //     this.searchKeyEmployeeID = event.target.value;
-    //     console.log('updated search key employeeID = ' + this.value);
-    // }
+
     handleChangedRole(event) {
         this.searchKeyRole = event.target.value;
-        console.log('updated search key role = ' + this.value);
     }
 
     //Get row selection of the employee (store each of their recordID into a variable, maybe a list?)
@@ -107,15 +96,10 @@ export default class ProgramAssigmentToMultiUsers extends LightningElement {
 
     //mass assign button click
     handleClick() {
-        console.log("employeeIDs can be used: " + employeeIDs);
-        console.log("program id can be used: " + this.recordId);
-        console.log("start date: " + this.startDate);
         if (this.startDate == null){
             this.variant = "noDate";
         } else if (employeeIDs.length > 0) { // error checking for no assignments
             for (let i = 0; i < employeeIDs.length; i++) {
-                //console.log("Hit click for " + employeeIDs[i]);
-                //console.log("Trying to work with pa: " + this.recordId);
                 try {
                     createProgramAssignments({ programID: this.recordId, employeeID: employeeIDs[i], startDate: this.startDate });
                     console.log("Created program assignments");
@@ -136,7 +120,5 @@ export default class ProgramAssigmentToMultiUsers extends LightningElement {
             message: this.message[this.variant],
             variant: this.variant
         }));
-        // refreshApex(this.employees);
-        // console.log("Refreshed list of employees");
     }
 }

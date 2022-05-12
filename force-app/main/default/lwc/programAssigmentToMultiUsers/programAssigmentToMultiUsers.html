@@ -4,17 +4,6 @@
         <div class=“slds-p-around_medium”>
             <div class="slds-form" role="list">
                 <div class="slds-form__row slds-p-left_medium">
-                    <!-- <div class="slds-form__item" role="listitem">
-                        <div class=“slds-p-left_medium”>
-                            <span class="slds-form-element__label">
-                                Program ID
-                            </span>
-                            <div class="slds-form-element__control">
-                                <lightning-formatted-text value={PID}>
-                                </lightning-formatted-text>
-                            </div>
-                        </div>
-                    </div> -->
                     <div class="slds-form__item" role="listitem">
                         <div class="slds-form-element">
                             <span class="slds-form-element__label">
@@ -52,11 +41,6 @@
     <!-- EMPLOYEE SECTION -->
     <lightning-card title ="Select Elligible Employees" icon-name="standard:contact">
         <!-- EMPLOYEE FILTERING-->
-        <!-- <div>
-            <p id="utility" class="slds-box slds-text-heading_small">
-                <lightning-icon icon-name="utility:filterList" title="Filter By">test</lightning-icon>
-            </p>
-        </div> -->
         <div class="slds-p-horizontal_small slds-p-left_large" style="width:500px">
             <lightning-input label="Filter by Name"
                             type="search" 
@@ -93,10 +77,4 @@
             <lightning-button variant="brand" label="Mass Assign" onclick={handleClick}></lightning-button>
         </div>
     </lightning-card>
-
-    <!-- <lightning-card>
-        <div class="slds-align_absolute-center">
-            <lightning-button varian="brand" label="Mass Assign" onclick={handleClick}></lightning-button>
-        </div>
-    </lightning-card> -->
 </template>

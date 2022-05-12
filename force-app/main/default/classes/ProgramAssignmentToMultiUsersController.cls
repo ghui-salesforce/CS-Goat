@@ -1,14 +1,4 @@
 public with sharing class ProgramAssignmentToMultiUsersController {
-    /** REPLACED WITH getFilteredEmployees()
-     * helper method, get all Contacts with Employee record type
-	@AuraEnabled(cacheable=true)
-    public static List<Contact> getAllEmployee(){
-        List<sObject> employeeRecordType = [SELECT Id,Name 
-                                            FROM RecordType 
-                                            WHERE sObjectType='Contact' AND Name='Employee'];
-        return [SELECT id,name,RecordTypeId FROM Contact WHERE RecordTypeId=:employeeRecordType[0].Id ORDER BY Name];
-    }
-*/
     //get all Employees that have not been assigned to that program
 	@AuraEnabled(cacheable=true)
     public static List<Contact> getAvailableEmployee(String pSelection, String eName, String eRole){

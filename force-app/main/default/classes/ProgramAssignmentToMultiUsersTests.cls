@@ -64,4 +64,12 @@ private class ProgramAssignmentToMultiUsersTests {
         System.assertEquals(expectedResult[0].Role__c, actualResult[0].Role__c);
         System.assertEquals(expectedResult[0].LastName, actualResult[0].Name);
     }  
+
+    @isTest 
+    static void getFilteredEmployeesByManagerTest() {
+        List<Contact> actualResult = ProgramAssignmentToMultiUsersController.getFilteredEmployees('', '', 'Smith');
+        System.assertEquals('Smith', actualResult[0].ReportsToName__c);
+        System.assertEquals('Technical Consultant', actualResult[0].Role__c);
+        System.assertEquals(1, actualResult.size());
+    }  
 }

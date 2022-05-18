@@ -14,6 +14,7 @@ import PROGRAM_DURATION_IN_DAYS_FIELD from '@salesforce/schema/Program__c.Progra
 const table_columns_employee = [
     { label: 'Name', fieldName: 'Name', type: 'text' },
     { label: 'Role', fieldName: 'Role__c', type: 'text' },
+    { label: 'Manager', fieldName: 'ReportsToName__c', type: 'text'}
 ];
 
 const fields = [PROGRAM_FIELD, NAME_FIELD, PROGRAM_DURATION_IN_DAYS_FIELD];
@@ -25,10 +26,15 @@ export default class ProgramAssigmentToMultiUsers extends LightningElement {
 
     @api recordId; //store the current record's ID
     @track searchKeyName = '';
+    @track searchKeyManager = '';
     @track searchKeyRole = '';
     @track startDate;
     @track employees;
     @track wiredEmployeeList = [];
+
+    searchTimer;
+    doneTypingInterval = 300;
+
     employeeColumns = table_columns_employee;    //Display the the list of available employees to be assigned
 
     // toast event messaging
@@ -56,8 +62,8 @@ export default class ProgramAssigmentToMultiUsers extends LightningElement {
     }
 
     // get initial employee table
-    @wire(getAvailableEmployee, { pSelection: '$recordId', eName: '$searchKeyName', eRole: '$searchKeyRole' })
-    wiredEmployeeList({ error, data }) {
+    @wire(getAvailableEmployee, { pSelection: '$recordId', eName: '$searchKeyName', eRole: '$searchKeyRole', eManager: '$searchKeyManager' })
+    wiredEmployeeList({ error, data }) {    
         if (data) {
             this.employees = data;
             this.error = undefined;
@@ -69,11 +75,27 @@ export default class ProgramAssigmentToMultiUsers extends LightningElement {
 
     // search/filter functionality for employee table
     handleChangedName(event) {
-        this.searchKeyName = event.target.value;
+        clearTimeout(this.searchTimer);
+        let searchText = event.target.value;
+        this.searchTimer = setTimeout(()=>{
+            this.searchKeyName = searchText;
+        }, this.doneTypingInterval);
     }
 
     handleChangedRole(event) {
-        this.searchKeyRole = event.target.value;
+        clearTimeout(this.searchTimer);
+        let searchText = event.target.value;
+        this.searchTimer = setTimeout(()=>{
+            this.searchKeyRole = searchText;
+        }, this.doneTypingInterval);
+    }
+
+    handleChangedManager(event) {
+        clearTimeout(this.searchTimer);
+        let searchText = event.target.value;
+        this.searchTimer = setTimeout(()=>{
+            this.searchKeyManager = searchText;
+        }, this.doneTypingInterval);
     }
 
     //Get row selection of the employee (store each of their recordID into a variable, maybe a list?)
@@ -82,11 +104,8 @@ export default class ProgramAssigmentToMultiUsers extends LightningElement {
         // Display that fieldName of the selected rows
         employeeIDs.length = 0; // empty the selected employees from the list 
         for (let i = 0; i < selectedRows.length; i++) {
-            console.log("You selected: " + selectedRows[i].Name + " Record ID: " + selectedRows[i].Id);
             employeeIDs.push(selectedRows[i].Id); // store employee record ids (because I dont know how to make selectedRows into a class constant)
         }
-        console.log("Total number of selections: " + employeeIDs.length);
-        
     }
 
     //date stuff
@@ -102,12 +121,10 @@ export default class ProgramAssigmentToMultiUsers extends LightningElement {
             for (let i = 0; i < employeeIDs.length; i++) {
                 try {
                     createProgramAssignments({ programID: this.recordId, employeeID: employeeIDs[i], startDate: this.startDate });
-                    console.log("Created program assignments");
                     this.variant = "success";
                     this.dispatchEvent(new CloseActionScreenEvent()); //auto close the lwc upon success
                 }
                 catch (error) {
-                    console.error("Error: " + error);
                     this.variant = "error";
                 }
 

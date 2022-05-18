@@ -6,7 +6,9 @@
                 <lightning-datatable
                     key-field="Id"
                     data={data}
-                    columns={ttaColumns}>
+                    columns={ttaColumns}
+                    onsave={handleSave}
+                    draft-values={draftValues}>
                 </lightning-datatable>
             </template>
         </div>

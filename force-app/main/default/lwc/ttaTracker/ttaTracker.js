@@ -1,6 +1,9 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import getTTAs from '@salesforce/apex/TrainingTaskAssignmentController.getTTAs';
-import { getRecord, getRecordNotifyChange } from 'lightning/uiRecordApi';
+import updateTTAs from '@salesforce/apex/TrainingTaskAssignmentController.updateTTAs';
+import { getRecordNotifyChange } from 'lightning/uiRecordApi';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { refreshApex } from '@salesforce/apex';
 
 const tta_table_columns = [
     {label: 'Training Task Assignment', fieldName: 'Training_Task_Assignment_url', type:'url',
@@ -22,6 +25,7 @@ export default class TtaTracker extends LightningElement {
     @api recordId;
     @track data;
     ttaColumns = tta_table_columns;
+    refreshData;
 
     @wire(getTTAs, { paID: '$recordId' })
     wiredTTAList(result) {
@@ -39,42 +43,41 @@ export default class TtaTracker extends LightningElement {
                     'Actual_Mins': element.Actual_Mins__c
                 }
             }));
+            this.error = undefined;
+            this.refreshData = result;
         } else if (result.error) {
             this.error = result.error;
-            this.data = undefined;
+            this.data = undefined; 
         }
     };
 
-
-    /**
-     * 
-     
-    @wire(getContacts, { accId: '$recordId' })
-    contact;
     async handleSave(event) {
         const updatedFields = event.detail.draftValues;
+        console.log('event details = ' + JSON.stringify(event.detail));
         // Prepare the record IDs for getRecordNotifyChange()
         const notifyChangeIds = updatedFields.map(row => { return { "recordId": row.Id } });
     
         try {
+            console.log('Entered try statement');
+            console.log('updatedFields = ' + JSON.stringify(updatedFields));
             // Pass edited fields to the updateContacts Apex controller
-            const result = await updateContacts({data: updatedFields});
+            const result = await updateTTAs({data: updatedFields});
             console.log(JSON.stringify("Apex update result: "+ result));
+                    
+            // Refresh LDS cache and wires
+            getRecordNotifyChange(notifyChangeIds);
+            console.log('executed getRecordNotifyChange');
+    
+            // Display fresh data in the datatable
+            await refreshApex(this.refreshData);
+
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Success',
-                    message: 'Contact updated',
+                    message: 'Training Task Assignments updated',
                     variant: 'success'
                 })
             );
-            // Refresh LDS cache and wires
-            getRecordNotifyChange(notifyChangeIds);
-    
-            // Display fresh data in the datatable
-            refreshApex(this.contact).then(() => {
-                // Clear all draft values in the datatable
-                this.draftValues = [];
-            });
        } catch(error) {
                this.dispatchEvent(
                    new ShowToastEvent({
@@ -84,7 +87,6 @@ export default class TtaTracker extends LightningElement {
                    })
              );
         };
-        
     }
-    */
+    
 }

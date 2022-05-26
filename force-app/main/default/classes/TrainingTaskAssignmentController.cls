@@ -10,6 +10,19 @@ public with sharing class TrainingTaskAssignmentController {
             throw new AuraHandledException(e.getMessage());
         }
     }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Program_Assignment__c> getPAs(String contactId){
+        System.debug('contactId = ' + contactId );
+        try {
+            return [SELECT id, Program__r.Name, Contact__c, Status__c, Start_Date__c, End_Date__c, Ahead_Behind__c
+                    FROM Program_Assignment__c
+                    WHERE Contact__c =:contactId
+            ];
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
     
     public class TTADraftValues {
         // these variables need to be named the same as the JS variables passed into JSON deserializer, otherwise they would store null values

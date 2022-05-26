@@ -1,15 +1,21 @@
 <!-- apexContactsForAccount.html -->
 <template>
-    <lightning-card title="TTA List" icon-name="standard:record_lookup">
+    <lightning-card title="Related Training Task Assignments" icon-name="standard:record">
         <div class="slds-m-around_medium">
             <template if:true={data}>
-                <lightning-datatable
+                <c-custom-data-table
                     key-field="Id"
                     data={data}
                     columns={ttaColumns}
+                    sorted-by={sortBy}
+                    sorted-direction={sortDirection}
+                    onsort={handleSortData}
                     onsave={handleSave}
-                    draft-values={draftValues}>
-                </lightning-datatable>
+                    onpicklistchanged={picklistChanged}
+                    draft-values={draftValues} 
+                    oncellchange={handleCellChange}
+                    onvalueselect={handleSelection}>
+                </c-custom-data-table>
             </template>
         </div>
     </lightning-card>

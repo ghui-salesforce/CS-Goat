@@ -1,0 +1,16 @@
+<template>
+    <lightning-card title="Program Assignment Selection" icon-name="standard:record_lookup">
+        <div class="slds-m-around_medium">
+            <template if:true={data}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={data}
+                    onrowselection={handleRowSelection}
+                    max-row-select ='1'
+                    columns={columns}>
+                </lightning-datatable>
+            </template>
+        </div>
+    </lightning-card>
+    <c-tta-tracker record-id = {selectedRows}></c-tta-tracker>
+</template>

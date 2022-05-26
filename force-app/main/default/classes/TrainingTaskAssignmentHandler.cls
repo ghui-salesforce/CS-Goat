@@ -1,6 +1,4 @@
-public class TrainingTaskAssignmentHandler {
-    // CHANGED THIS INTO A SCHEDULED BATCH APEX, BECAUSE "SYSTEM DML EXCEPTION DUPLICATE ID IN  UPDATE LIST,THROWN FROM ASSIGN_RELATED_TASKS CLASS"
-   
+public class TrainingTaskAssignmentHandler {   
     public static void InsertProgramCompletedMinsAndTasks(List<Training_Task_Assignment__c> ttas){
         List<Program_Assignment__c> paSend = new List<Program_Assignment__c>();
 		Set<Program_Assignment__c> pasSet = new Set<Program_Assignment__c>(); // Create a set because we want to store unique PA.id in the update DML 
@@ -72,7 +70,51 @@ public class TrainingTaskAssignmentHandler {
 
     }
    
-    
+    // Contact's Training Task Asssignments of the same Training Task need to be updated when any changes occur
+    public static void UpdateRelatedTTAs(List<Training_Task_Assignment__c> ttas){
+        System.debug('HIT UPDATE RELATED TTAs');
+        List<Training_Task_Assignment__c> ttaUpdate = new List<Training_Task_Assignment__c>(); // create update DML list
+        Set<Id> ttaSet = new Set<Id>(); // training task assignment set
+        Set<String> cttSet = new Set<String>(); //contact training task set: helps get all similar tta records associated with this employee
+
+        for(Training_Task_Assignment__c tta: ttas){
+            ttaSet.add(tta.Id);
+            cttSet.add(tta.ContactTrainingTask__c); //ContactTrainingTask is a string of 'Contact.Id+Training_Task__c.Id'
+        }
+        // cache map of trigger TTAs (most updated data)
+        Map<Id,Training_Task_Assignment__c> ttaMap = new Map<Id,Training_Task_Assignment__c>([
+            SELECT Id, Training_Task__c, Contact__c, Status__c, Date_Completed__c, Actual_Mins__c, ContactTrainingTask__c
+            FROM Training_Task_Assignment__c
+            WHERE Id IN :ttaSet
+        ]);
+
+        Map<String,Id> cttMap = new Map<String,Id>(); // use this to help associate the updated value with related/involved records
+        for (Id ttaId : ttaMap.keySet()) {
+            cttMap.put(ttaMap.get(ttaId)?.ContactTrainingTask__c, ttaId);
+        }
+
+        // get all duplicate TTAs we'll be working with
+        // duplicate refers TTA records that have the same Training_Task and Contact (because TTAs can be part of different program assignments)
+        List<Training_Task_Assignment__c> duplicateTTAs = [SELECT Id, Training_Task__c,  Contact__c, Status__c, Date_Completed__c, Actual_Mins__c, ContactTrainingTask__c
+                                                         FROM Training_Task_Assignment__c
+                                                         WHERE ContactTrainingTask__c IN :cttSet];
+
+        // for each, find what the updated value should be according to the trigger TTA map, then replace the values
+        for (Training_Task_Assignment__c duplicateTTA: duplicateTTAs){
+            Id tempId = cttMap.get(duplicateTTA.ContactTrainingTask__c); // helps get the value of what all duplicateTTAs should be
+
+            duplicateTTA.Status__c = ttaMap.get(tempId)?.Status__c;
+            duplicateTTA.Date_Completed__c = ttaMap.get(tempId)?.Date_Completed__c;
+            duplicateTTA.Actual_Mins__c = ttaMap.get(tempId)?.Actual_Mins__c;
+
+            ttaUpdate.add(duplicateTTA);
+        }
+        // perform DML
+        if (ttaUpdate.size() > 0){
+            update ttaUpdate;
+        }
+    }
+
     // update fields on program assignment related to the TTA
     public static void UpdateProgramCompletedMinsAndTasks(List<Training_Task_Assignment__c> ttas){
         List<Program_Assignment__c> paSend = new List<Program_Assignment__c>();

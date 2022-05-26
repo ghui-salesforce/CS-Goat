@@ -94,6 +94,7 @@
         <members>Training_Task_Assignment__c.Actual_Mins__c</members>
         <members>Training_Task_Assignment__c.Blockers__c</members>
         <members>Training_Task_Assignment__c.Contact__c</members>
+        <members>Training_Task_Assignment__c.ContactTrainingTask__c</members>
         <members>Training_Task_Assignment__c.Date_Completed__c</members>
         <members>Training_Task_Assignment__c.Description__c</members>
         <members>Training_Task_Assignment__c.Due_Date__c</members>

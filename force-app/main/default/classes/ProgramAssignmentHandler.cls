@@ -14,7 +14,7 @@ public class ProgramAssignmentHandler {
     // Create 'training task assignment' records that belong to the 'program' in 'program assignment'
     public static void CreateRelatedTrainingTasks(List<Program_Assignment__c> pas){
         List<Training_Task_Assignment__c> ttaSend = new List<Training_Task_Assignment__c>(); //dml list of 'tta' records to create
-        Map<id,String> ttaMap = new Map<id,String>(); //create a map of all the employee's tta's TA
+        Map<id,Training_Task_Assignment__c> ttaMap = new Map<id,Training_Task_Assignment__c>(); //create a map of all the employee's tta's TA
         
         //query for program task association, then assign tasks based off that
         for(Program_Assignment__c pa: pas){
@@ -24,10 +24,10 @@ public class ProgramAssignmentHandler {
                                          WHERE Program__c= :pa.Program__c];
             
             //populate the ttaMap of all the employee's tta's TA
-            for(Training_Task_Assignment__c tta:[SELECT id,Training_Task__c,Contact__c,Status__c
+            for(Training_Task_Assignment__c tta:[SELECT id,Training_Task__c,Contact__c,Status__c,Actual_Mins__c,Date_Completed__c
                                                  FROM Training_Task_Assignment__c
                                                  WHERE Contact__c = :pa.Contact__c]){
-                                                     ttaMap.put(tta.Training_Task__c, tta.Status__c);
+                                                     ttaMap.put(tta.Training_Task__c, tta);
                                                  }         
             //I want the duplicate training task assignments to have the same status as one that currently exists (this only sets it to 'Not Started' w/ incorrect PA)
             for(Program_Task__c pt: pts){ //create training task assignments
@@ -38,7 +38,9 @@ public class ProgramAssignmentHandler {
                                                           Start_Date__c=pa.Start_Date__c,
                                                           Due_Date__c=pa.Start_Date__c.addDays((Integer)pt.Due_Day__c-1), //accurate due date requires -1 offset, use validation rule for {due day >= 1}
                                                           Program_Assignment__c=pa.Id,
-                                                          Status__c=ttaMap.get(pt.Training_Task__c),
+                                                          Status__c=ttaMap.get(pt.Training_Task__c)?.Status__c,
+                                                          Actual_Mins__c=ttaMap.get(pt.Training_Task__c)?.Actual_Mins__c,
+                                                          Date_Completed__c=ttaMap.get(pt.Training_Task__c)?.Date_Completed__c,
                                                           Training_Task__c=pt.Training_Task__c); 
                 }else{
                     tta = new Training_Task_Assignment__c(Contact__c=pa.Contact__c,
